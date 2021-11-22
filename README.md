@@ -24,3 +24,16 @@
 
 5. Layered System
 6. Code on Demand
+
+## DB 종류
+
+1. 관계형 DB
+
+- table 형식
+- MySQL | MariaDB | Oracle | My SQL Server
+- SQL 이라는 언어를 써야함 (Query Language)
+
+2. NoSQL
+
+- Object 자료형으로 입출력 가능
+- Dynamo | Oracle NoSQL | MongoDB | Redis | Cassandra
