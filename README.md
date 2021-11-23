@@ -37,3 +37,11 @@
 
 - Object 자료형으로 입출력 가능
 - Dynamo | Oracle NoSQL | MongoDB | Redis | Cassandra
+
+## EJS
+
+- HTML 쉽게 쓸 수 있도록 도와주는 템플릿 엔진 ([문서](https://ejs.co/)) HTML 안
+  에
+- 서버 데이터를 집어 넣을 수 있음
+- index.html -> index.ejs 사용 가능
+- ejs 파일은 `views` 폴더 안에 있어야 함
