@@ -5,6 +5,7 @@ const bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({extended: true}))
 
 const MongoClient = require('mongodb').MongoClient
+app.set('view engine', 'ejs')
 
 let db
 MongoClient.connect(
@@ -12,16 +13,7 @@ MongoClient.connect(
   (error, client) => {
     if (error) return console.log(error)
 
-    // todoapp 이라는 database (폴더)에 연결
     db = client.db('todoapp')
-
-    db.collection('post').insertOne(
-      {_id: 1, name: 'suzie', age: 24},
-      (error, result) => {
-        console.log('저장 완료')
-      },
-    )
-
     app.listen('8080', () => {
       console.log('listening on 8080')
     })
@@ -46,12 +38,16 @@ app.get('/write', (req, res) => {
 
 app.post('/add', (req, res) => {
   res.send('전송 완료')
+  console.log(req.body)
 
-  // db = client.db('todoapp')
-  // db.collection('post').insertOne(
-  //   {_id: 1, title: req.body.title, date: req.body.date},
-  //   (error, result) => {
-  //     console.log('저장 완료')
-  //   },
-  // )
+  db.collection('post').insertOne(
+    {title: req.body.title, date: req.body.date},
+    (error, result) => {
+      console.log('저장 완료')
+    },
+  )
+})
+
+app.get('/list', (req, res) => {
+  res.render('list.ejs')
 })
