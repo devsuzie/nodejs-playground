@@ -44,3 +44,4 @@
 - HTML 안에 서버 데이터를 집어 넣을 수 있음
 - index.html -> index.ejs 사용 가능
 - ejs 파일은 `views` 폴더 안에 있어야 함
+- ejs 파일 내에서 js 문법 쓰고 싶으면 line 의 앞, 뒤에 `<% %>` 붙이면 됨
