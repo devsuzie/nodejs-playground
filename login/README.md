@@ -8,8 +8,3 @@
   - 이 때 로그인 정보는 암호화 되어야 함
 - DB에 저장된 로그인 정보는 /list path에서 확인 가능
   - 이 때 로그인 정보는 복호화 되어야 함
-
-## todo
-
-- create new collection
-- encrypt & decrypt login data
