@@ -27,7 +27,7 @@ app.post('/login', (req, res) => {
   res.send('암호화된 로그인 정보를 DB에 저장했습니다.')
 
   db.collection('post').insertOne(
-    {id: req.body.id, password: encrypt(req.body.password, 'secret-key')},
+    {id: req.body.id, password: encrypt(req.body.password)},
     (error, result) => {
       console.log('저장 완료')
     },
@@ -44,7 +44,7 @@ app.get('/list', (req, res) => {
       res.render('list.ejs', {
         result: {
           id: lastSavedId,
-          password: decrypt(lastSavedPassword, 'secret-key'),
+          password: decrypt(lastSavedPassword),
         },
       })
     })
