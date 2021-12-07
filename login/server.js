@@ -17,7 +17,6 @@ mongoose.connect(process.env.DB_CONNECT, {useNewUrlParser: true}, () => {
 });
 
 // Middleware
-// app.use(express.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 // Route Middlewares
