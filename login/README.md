@@ -47,3 +47,4 @@ npm run start
   - then redirect to login page
 - Add CI with github actions
 - Migration secret key from dotenv to github secret
+- Github tag action (when create pr)
