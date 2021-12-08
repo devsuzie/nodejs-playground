@@ -35,12 +35,13 @@
 - Relational의 의미
   - 데이터들 간의 관계를 정해서 데이터를 저장할 수 있다는 뜻
   - 테이블 형 DB에서는 3차원 데이터를 표현하기 어려운데 이를 극복하기 위해 테이
-    블을 하나 더 만들고, 테이블간의 관계를 생성한다는 뜻애서 Relational DB라고
-    불림
+    블을 하나 더 만들고, 테이블간의 관계를 생성한다는 뜻애서 Relational DB라고불
+    림
 
 2. NoSQL
 
 - SQL 언어를 사용하지 않고도 사용할 수 있는 DB
+- Dynamo | Oracle NoSQL | MongoDB | Redis | Cassandra
 - 종류
   - Key-value 모델
   - Document 모델: MongoDB가 여기에 속함
