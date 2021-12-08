@@ -32,11 +32,25 @@
 - table 형식
 - MySQL | MariaDB | Oracle | My SQL Server
 - SQL 이라는 언어를 써야함 (Query Language)
+- Relational의 의미
+  - 데이터들 간의 관계를 정해서 데이터를 저장할 수 있다는 뜻
+  - 테이블 형 DB에서는 3차원 데이터를 표현하기 어려운데 이를 극복하기 위해 테이
+    블을 하나 더 만들고, 테이블간의 관계를 생성한다는 뜻애서 Relational DB라고
+    불림
 
 2. NoSQL
 
-- Object 자료형으로 입출력 가능
-- Dynamo | Oracle NoSQL | MongoDB | Redis | Cassandra
+- SQL 언어를 사용하지 않고도 사용할 수 있는 DB
+- 종류
+  - Key-value 모델
+  - Document 모델: MongoDB가 여기에 속함
+  - Graph 모델
+  - Wide-column 모델
+- Scaling이 쉬움
+  - 관계형 DB에서는 확장을 위해 Scale Up (서버 성능 확장)을 함
+  - NoSQL DB에서는 Scale Out 으로 데이터를 분산 저장함
+- 스키마 정의 없이 사용 가능
+  - 스키마를 정의하기 위해 Mongoose 사용
 
 ## EJS
 
