@@ -73,3 +73,14 @@
   - jwt debugger에서 decoded 내용 확인 가능
   - 내가 payload에 담아서 보낸 내용이 잘 담겼는지 등
   - 여기서 토큰 유효 기간 설정도 가능함
+
+## Mongodb Operator (연산자)
+
+- $set: 값을 바꾸고 싶을때 사용
+  ```
+  {$set: {totalPost: 바꿀 값}}
+  ```
+- $inc: 값을 증가하고 싶을때 사용
+  ```
+  {$inc: {totalPost: 기존 값에 더해줄 값}}
+  ```
