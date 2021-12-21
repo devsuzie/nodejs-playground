@@ -68,3 +68,10 @@ app.get('/list', (req, res) => {
       });
     });
 });
+
+app.delete('/delete', (req, res) => {
+  req.body._id = parseInt(req.body._id);
+  db.collection('post').deleteOne(req.body, (error, res) => {
+    console.log('삭제 완료');
+  });
+});

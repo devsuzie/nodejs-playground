@@ -84,3 +84,10 @@
   ```
   {$inc: {totalPost: 기존 값에 더해줄 값}}
   ```
+
+## Javascript Ajax
+
+- 서버와 통신할 수 있게 도와주는 JS 문법
+- 새로고침 없이 서버에 요청할 수 있음 (url 보내서 API 요청하는 방식과 다름)
+- HTML 에서 불가능한 DELETE 요청을 가능하게 해줌
+- `$.ajax` ajax 요청할 수 있는 함수
