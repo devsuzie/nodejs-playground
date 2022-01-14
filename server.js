@@ -71,7 +71,22 @@ app.get('/list', (req, res) => {
 
 app.delete('/delete', (req, res) => {
   req.body._id = parseInt(req.body._id);
-  db.collection('post').deleteOne(req.body, (error, res) => {
-    console.log('삭제 완료');
+  db.collection('post').deleteOne(req.body, (error, result) => {
+    result.status(200).send({
+      message: 'delete success',
+    });
   });
+});
+
+app.get('/detail/:id', (req, res) => {
+  db.collection('post').findOne(
+    {_id: parseInt(req.params.id)},
+    (error, result) => {
+      res.render('detail.ejs', {data: result});
+
+      if (!result) {
+        res.send('page not found');
+      }
+    },
+  );
 });

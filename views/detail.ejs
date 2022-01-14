@@ -49,20 +49,10 @@
       </div>
     </nav>
 
-    <h4 class="ml-2 my-3">서버에서 가져온 할 일 리스트</h4>
+    <h4>상세 페이지</h4>
 
-    <ul class="list-group">
-      <% for (let i = 0; i < posts.length; i++) { %>
-      <li class="list-group-item">
-        <a href="/detail/<%= posts[i]._id %>">
-          <p>글번호: <%= posts[i]._id %></p>
-          <h4>할 일 제목: <%= posts[i].title %></h4>
-          <p>할 일 마감날짜: <%= posts[i].date %></p>
-          <button class="delete" data-id="<%= posts[i]._id %>">삭제</button>
-        </a>
-      </li>
-      <% } %>
-    </ul>
+    <p>할 일 제목: <%= data.title %></p>
+    <p>할 일 마감날짜: <%= data.date %></p>
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script>
