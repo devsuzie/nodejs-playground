@@ -91,3 +91,13 @@
 - 새로고침 없이 서버에 요청할 수 있음 (url 보내서 API 요청하는 방식과 다름)
 - HTML 에서 불가능한 DELETE 요청을 가능하게 해줌
 - `$.ajax` ajax 요청할 수 있는 함수
+
+## 회원 인증 방법
+
+- session-based
+  - 로그인시 쿠키 발급 후 session data를 서버 메모리에 저장
+- token-based (jwt)
+  - 로그인시 서버에서 웹 토큰을 발급해서 브라우저에 전송 (요청할때마다 헤더에 토
+    큰을 담아서 전송)
+- Open Authentication (OAuth)
+  - google 프로필 정보를 가져옴

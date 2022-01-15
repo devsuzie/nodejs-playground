@@ -1,11 +1,15 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
+const methodOverride = require('method-override');
+const MongoClient = require('mongodb').MongoClient;
+
 // POST 요청으로 서버에 데이터 전송하고 싶으면 body-parser 사용해야 함
 app.use(bodyParser.urlencoded({extended: true}));
 
-const MongoClient = require('mongodb').MongoClient;
 app.set('view engine', 'ejs');
+
+app.use(methodOverride('_method'));
 
 let db;
 MongoClient.connect(
@@ -87,6 +91,26 @@ app.get('/detail/:id', (req, res) => {
       if (!result) {
         res.send('page not found');
       }
+    },
+  );
+});
+
+app.get('/edit/:id', (req, res) => {
+  db.collection('post').findOne(
+    {_id: parseInt(req.params.id)},
+    (error, result) => {
+      res.render('edit.ejs', {post: result});
+    },
+  );
+});
+
+app.put('/edit', (req, res) => {
+  db.collection('post').updateOne(
+    {_id: parseInt(req.body.id)},
+    {$set: {title: req.body.title, date: req.body.date}},
+    (error, result) => {
+      console.log('edit success');
+      res.redirect('/list');
     },
   );
 });
