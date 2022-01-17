@@ -66,7 +66,6 @@ app.get('/list', (req, res) => {
   db.collection('post')
     .find()
     .toArray((error, result) => {
-      console.log(result);
       res.render('list.ejs', {
         posts: result,
       });
@@ -114,3 +113,50 @@ app.put('/edit', (req, res) => {
     },
   );
 });
+
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const session = require('express-session');
+
+app.use(
+  session({secret: 'SECRETE_CODE', resave: true, saveUninitialized: false}),
+);
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.get('/login', (req, res) => {
+  res.render('login.ejs');
+});
+
+app.post(
+  '/login',
+  passport.authenticate('local', {
+    failureRedirect: '/fail',
+  }),
+  (req, res) => {
+    res.redirect('/');
+  },
+);
+
+passport.use(
+  new LocalStrategy(
+    {
+      usernameField: 'id',
+      passwordField: 'pw',
+      session: true,
+      passReqToCallback: false,
+    },
+    (id, password, done) => {
+      db.collection('login').findOne({id}, function (error, result) {
+        if (error) return done(error);
+
+        if (!result) return done(null, false, {message: 'id does not exist'});
+        if (password === result.pw) {
+          return done(null, result);
+        } else {
+          return done(null, false, {message: 'Password Incorrect'});
+        }
+      });
+    },
+  ),
+);

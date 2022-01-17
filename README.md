@@ -101,3 +101,7 @@
     큰을 담아서 전송)
 - Open Authentication (OAuth)
   - google 프로필 정보를 가져옴
+
+## 미들웨어
+
+- `app.use()`: 요청과 응답사이에 동작하는 코드
