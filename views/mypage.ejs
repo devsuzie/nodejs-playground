@@ -49,25 +49,9 @@
       </div>
     </nav>
 
-    <div class="container mt-4">
-      <!-- form 데이터의 경우 input tag에 name을 써줘야함 -->
-      <form action="/login" method="POST">
-        <div class="mb-3">
-          <label for="todo" class="form-label">ID</label>
-          <input type="text" class="form-control" id="todo" name="id" />
-        </div>
-        <div class="mb-3">
-          <label for="due-date" class="form-label">Password</label>
-          <input
-            type="password"
-            class="form-control"
-            id="due-date"
-            name="password"
-          />
-        </div>
-        <button type="submit" class="btn btn-danger">Submit</button>
-      </form>
-    </div>
+    <p><%= user.id %></p>
+
+    <p>My Page</p>
 
     <!-- Optional JavaScript; choose one of the two! -->
 

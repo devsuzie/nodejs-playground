@@ -3,6 +3,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 const MongoClient = require('mongodb').MongoClient;
+require('dotenv').config();
 
 // POST 요청으로 서버에 데이터 전송하고 싶으면 body-parser 사용해야 함
 app.use(bodyParser.urlencoded({extended: true}));
@@ -12,17 +13,14 @@ app.set('view engine', 'ejs');
 app.use(methodOverride('_method'));
 
 let db;
-MongoClient.connect(
-  'mongodb+srv://suzie:ZDW6qvg!xdt-yut3ygw@cluster0.dvvbl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
-  (error, client) => {
-    if (error) return console.log(error);
+MongoClient.connect(process.env.DB_URL, (error, client) => {
+  if (error) return console.log(error);
 
-    db = client.db('todoapp');
-    app.listen('8080', () => {
-      console.log('listening on 8080');
-    });
-  },
-);
+  db = client.db('todoapp');
+  app.listen('8080', () => {
+    console.log('listening on 8080');
+  });
+});
 
 app.get('/pet', (req, res) => {
   res.send('pet page');
@@ -138,11 +136,23 @@ app.post(
   },
 );
 
+const isSignedInUser = (req, res, next) => {
+  if (req.user) {
+    next();
+  } else {
+    res.send('Sign In needed');
+  }
+};
+
+app.get('/mypage', isSignedInUser, (req, res) => {
+  res.render('mypage.ejs', {user: req.user});
+});
+
 passport.use(
   new LocalStrategy(
     {
       usernameField: 'id',
-      passwordField: 'pw',
+      passwordField: 'password',
       session: true,
       passReqToCallback: false,
     },
@@ -151,7 +161,7 @@ passport.use(
         if (error) return done(error);
 
         if (!result) return done(null, false, {message: 'id does not exist'});
-        if (password === result.pw) {
+        if (password === result.password) {
           return done(null, result);
         } else {
           return done(null, false, {message: 'Password Incorrect'});
@@ -160,3 +170,15 @@ passport.use(
     },
   ),
 );
+
+// session 저장 (로그인 성공시)
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+// user session id로 개인정보를 DB에서 찾아옴 (mypage 접속시)
+passport.deserializeUser((id, done) => {
+  db.collection('login').findOne({id: id}, (error, result) => {
+    done(null, result);
+  });
+});
