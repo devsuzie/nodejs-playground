@@ -61,7 +61,7 @@
     <ul class="list-group">
       <% for (let i = 0; i < posts.length; i++) { %>
       <li class="list-group-item">
-        <a href="/detail/<%= posts[i]._id %>">
+        <a href="/search/<%= posts[i]._id %>">
           <p>글번호: <%= posts[i]._id %></p>
           <h4>할 일 제목: <%= posts[i].title %></h4>
           <p>할 일 마감날짜: <%= posts[i].date %></p>
@@ -72,33 +72,6 @@
     </ul>
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-
-    <script>
-      $('#search').click(() => {
-        console.log('clicked');
-        const value = $('#search-input').val();
-        window.location.replace('/search?value=' + value);
-      });
-    </script>
-
-    <script>
-      $('.delete').click(e => {
-        const current = $(this);
-
-        $.ajax({
-          method: 'DELETE',
-          url: '/delete',
-          data: {_id: e.target.dataset.id},
-        })
-          .done(res => {
-            console.log('성공했어요');
-            current.parent('li').fadeOut();
-          })
-          .fail((xhr, textStatus, errorThrown) => {
-            console.log(xhr, textStatus, errorThrown);
-          });
-      });
-    </script>
 
     <!-- Optional JavaScript; choose one of the two! -->
 
