@@ -105,3 +105,14 @@
 ## 미들웨어
 
 - `app.use()`: 요청과 응답사이에 동작하는 코드
+
+## 게시물 빨리 검색하기
+
+- Binary Search: 많은 수의 게시물 중 빠르게 찾는 방법 (내림차순으로 정렬 되어 있
+  어야 사용 가능)
+- MongoDB는 `_id` 순으로 미리 정렬되어 있어서 Binary Search 가능
+- 문자열 (제목)에 Indexing - 미리 정렬하면 Binary Search 적용할 수 있음
+  - mongoDB 콜렉션에서 `Indexs` 탭에서 text index 설정 가능
+  - 띄어쓰기로 구분하여 검색 결과를 도출하기 때문에 검색할 문서 양을 정해두거나
+    text index 만들때 다르게 만들면 됨
+  - searchIndex로 생성하면 문제 해결: Index Analyzer를 lucene.korean으로 변경

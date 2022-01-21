@@ -184,9 +184,22 @@ passport.deserializeUser((id, done) => {
 });
 
 app.get('/search', (req, res) => {
-  console.log(req.query.value);
+  const searchCondition = [
+    {
+      $search: {
+        index: 'titleSearch',
+        text: {
+          query: req.query.value,
+          path: 'title',
+        },
+      },
+    },
+    {$sort: {_id: 1}},
+    {$limit: 10},
+  ];
+
   db.collection('post')
-    .find({title: req.query.value})
+    .aggregate(searchCondition)
     .toArray((error, result) => {
       res.render('search.ejs', {posts: result});
     });
