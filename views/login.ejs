@@ -69,6 +69,26 @@
       </form>
     </div>
 
+    <div class="container mt-4">
+      <!-- form 데이터의 경우 input tag에 name을 써줘야함 -->
+      <form action="/register" method="POST">
+        <div class="mb-3">
+          <label for="todo" class="form-label">ID</label>
+          <input type="text" class="form-control" id="todo" name="id" />
+        </div>
+        <div class="mb-3">
+          <label for="due-date" class="form-label">Password</label>
+          <input
+            type="password"
+            class="form-control"
+            id="due-date"
+            name="password"
+          />
+        </div>
+        <button type="submit" class="btn btn-danger">Register</button>
+      </form>
+    </div>
+
     <!-- Optional JavaScript; choose one of the two! -->
 
     <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->

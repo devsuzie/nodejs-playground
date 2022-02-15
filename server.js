@@ -35,29 +35,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/write', (req, res) => {
-  res.sendFile(__dirname + '/write.html');
-});
-
-app.post('/add', (req, res) => {
-  res.send('전송 완료');
-
-  db.collection('counter').findOne({name: '게시물갯수'}, (error, result) => {
-    const {totalPost} = result;
-
-    db.collection('post').insertOne(
-      {_id: totalPost + 1, title: req.body.title, date: req.body.date},
-      (error, result) => {
-        console.log('저장 완료');
-        db.collection('counter').updateOne(
-          {name: '게시물갯수'},
-          {$inc: {totalPost: 1}},
-          (error, result) => {
-            if (error) return console.log(error);
-          },
-        );
-      },
-    );
-  });
+  res.render('write.ejs');
 });
 
 app.get('/list', (req, res) => {
@@ -68,15 +46,6 @@ app.get('/list', (req, res) => {
         posts: result,
       });
     });
-});
-
-app.delete('/delete', (req, res) => {
-  req.body._id = parseInt(req.body._id);
-  db.collection('post').deleteOne(req.body, (error, result) => {
-    result.status(200).send({
-      message: 'delete success',
-    });
-  });
 });
 
 app.get('/detail/:id', (req, res) => {
@@ -180,6 +149,55 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser((id, done) => {
   db.collection('login').findOne({id: id}, (error, result) => {
     done(null, result);
+  });
+});
+
+app.post('/register', (req, res) => {
+  db.collection('login').insertOne(
+    {id: req.body.id, pw: req.body.password},
+    (error, result) => {
+      res.redirect('/');
+    },
+  );
+});
+
+app.post('/add', (req, res) => {
+  res.send('전송 완료');
+
+  db.collection('counter').findOne({name: '게시물갯수'}, (error, result) => {
+    const {totalPost} = result;
+
+    const data = {
+      _id: totalPost + 1,
+      author: req.user._id,
+      title: req.body.title,
+      date: req.body.date,
+    };
+
+    db.collection('post').insertOne(data, (error, result) => {
+      console.log('저장 완료');
+      db.collection('counter').updateOne(
+        {name: '게시물갯수'},
+        {$inc: {totalPost: 1}},
+        (error, result) => {
+          if (error) return console.log(error);
+        },
+      );
+    });
+  });
+});
+
+app.delete('/delete', (req, res) => {
+  req.body._id = parseInt(req.body._id);
+  const deleteData = {_id: req.body._id, author: req.user._id};
+  db.collection('post').deleteOne(deleteData, (error, result) => {
+    if (error) {
+      console.log(error);
+    }
+
+    result.status(200).send({
+      message: 'delete success',
+    });
   });
 });
 
