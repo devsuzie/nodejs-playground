@@ -222,3 +222,7 @@ app.get('/search', (req, res) => {
       res.render('search.ejs', {posts: result});
     });
 });
+
+// middleware between every request ans response
+app.use('/shop', require('./routes/shop'));
+app.use('/board/sub', require('./routes/board'));
