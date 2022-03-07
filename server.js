@@ -1,8 +1,9 @@
 const express = require('express');
+
 const app = express();
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
-const MongoClient = require('mongodb').MongoClient;
+const {MongoClient} = require('mongodb');
 require('dotenv').config();
 
 // POST 요청으로 서버에 데이터 전송하고 싶으면 body-parser 사용해야 함
@@ -31,7 +32,7 @@ app.get('/beauty', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html');
+  res.sendFile(`${__dirname}/index.html`);
 });
 
 app.get('/write', (req, res) => {
@@ -126,15 +127,14 @@ passport.use(
       passReqToCallback: false,
     },
     (id, password, done) => {
-      db.collection('login').findOne({id}, function (error, result) {
+      db.collection('login').findOne({id}, (error, result) => {
         if (error) return done(error);
 
         if (!result) return done(null, false, {message: 'id does not exist'});
         if (password === result.password) {
           return done(null, result);
-        } else {
-          return done(null, false, {message: 'Password Incorrect'});
         }
+        return done(null, false, {message: 'Password Incorrect'});
       });
     },
   ),
@@ -147,7 +147,7 @@ passport.serializeUser((user, done) => {
 
 // user session id로 개인정보를 DB에서 찾아옴 (mypage 접속시)
 passport.deserializeUser((id, done) => {
-  db.collection('login').findOne({id: id}, (error, result) => {
+  db.collection('login').findOne({id}, (error, result) => {
     done(null, result);
   });
 });
@@ -226,3 +226,30 @@ app.get('/search', (req, res) => {
 // middleware between every request ans response
 app.use('/shop', require('./routes/shop'));
 app.use('/board/sub', require('./routes/board'));
+
+// image upload
+
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, './public/image');
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
+  },
+});
+
+const upload = multer({storage});
+
+app.get('/upload', (req, res) => {
+  res.render('upload.ejs');
+});
+
+app.post('/upload', upload.single('profile'), (req, res) => {
+  res.send('Upload success');
+});
+
+app.get('/image/:imageName', (req, res) => {
+  res.sendFile(`${__dirname}/public/image/${req.params.imageName}`);
+});
