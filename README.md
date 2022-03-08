@@ -116,3 +116,9 @@
   - 띄어쓰기로 구분하여 검색 결과를 도출하기 때문에 검색할 문서 양을 정해두거나
     text index 만들때 다르게 만들면 됨
   - searchIndex로 생성하면 문제 해결: Index Analyzer를 lucene.korean으로 변경
+
+## Mongoose
+
+- validation 쉽게 할 수 있도록 스키마 정의 가능
+- 예전에는 MongoDB Native가 구려서 많이 사용했으나 `MongoDB Compass`로
+  Validation 처리 가능
