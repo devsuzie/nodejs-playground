@@ -1,3 +1,4 @@
+/* eslint-disable object-curly-spacing */
 const express = require('express');
 
 const app = express();
@@ -98,11 +99,9 @@ app.get('/login', (req, res) => {
 
 app.post(
   '/login',
-  passport.authenticate('local', {
-    failureRedirect: '/fail',
-  }),
-  (req, res) => {
-    res.redirect('/');
+  passport.authenticate('local', {failureRedirect: '/fail'}),
+  (req, resp) => {
+    resp.redirect('/');
   },
 );
 
@@ -252,4 +251,30 @@ app.post('/upload', upload.single('profile'), (req, res) => {
 
 app.get('/image/:imageName', (req, res) => {
   res.sendFile(`${__dirname}/public/image/${req.params.imageName}`);
+});
+
+// chatting with authorization
+const {ObjectId} = require('mongodb');
+
+app.post('/chatroom', isSignedInUser, (req, res) => {
+  const data = {
+    title: 'Chat Room',
+    member: [ObjectId(req.body.targetId), req.user._id],
+    date: new Date(),
+  };
+
+  db.collection('chatroom')
+    .insertOne(data)
+    .then(result => {
+      res.send('success');
+    });
+});
+
+app.get('/chat', isSignedInUser, (req, res) => {
+  db.collection('chatroom')
+    .find({member: req.user._id})
+    .toArray()
+    .then(result => {
+      res.render('chat.ejs', {data: result});
+    });
 });

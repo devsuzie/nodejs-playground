@@ -21,7 +21,7 @@
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-fluid">
-        <a class="navbar-brand" href="/">Todo App</a>
+        <a class="navbar-brand" href="#">Todo App</a>
         <button
           class="navbar-toggler"
           type="button"
@@ -36,82 +36,38 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="/">Home</a>
+              <a class="nav-link active" aria-current="page" href="#">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/write">Write</a>
+              <a class="nav-link" href="#">Write</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/">임시</a>
+              <a class="nav-link" href="#">임시</a>
             </li>
           </ul>
         </div>
       </div>
     </nav>
 
-    <h4 class="ml-2 my-3">서버에서 가져온 할 일 리스트</h4>
-
-    <div class="container input-group mb-2">
-      <input class="form-control" id="search-input" />
-      <button class="input-group-append btn btn-danger" id="search">
-        검색
-      </button>
+    <div class="container p-4 detail">
+      <div class="row">
+        <div class="col-3">
+          <ul class="list-group chat-list">
+            <% for (let i = 0; i < data.length; i++) { %>
+            <li class="list-group-item">
+              <h6><%= data[0].title %></h6>
+              <h6 class="text-small"><%= data[0].member[0] %></h6>
+            </li>
+            <% } %>
+          </ul>
+        </div>
+      </div>
     </div>
-
-    <ul class="list-group">
-      <% for (let i = 0; i < posts.length; i++) { %>
-      <li class="list-group-item">
-        <a href="/detail/<%= posts[i]._id %>">
-          <p>글번호: <%= posts[i]._id %></p>
-          <h4>할 일 제목: <%= posts[i].title %></h4>
-          <p>할 일 마감날짜: <%= posts[i].date %></p>
-        </a>
-        <button class="delete" data-id="<%= posts[i]._id %>">삭제</button>
-        <button class="chat" data-id="<%= posts[i].author %>">채팅하기</button>
-      </li>
-      <% } %>
-    </ul>
-
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-
-    <script>
-      $('#search').click(() => {
-        const value = $('#search-input').val();
-        window.location.replace('/search?value=' + value);
-      });
-    </script>
-
-    <script>
-      $('.delete').click(e => {
-        const current = $(this);
-
-        $.ajax({
-          method: 'DELETE',
-          url: '/delete',
-          data: {_id: e.target.dataset.id},
-        })
-          .done(res => {
-            console.log('성공했어요');
-            current.parent('li').fadeOut();
-          })
-          .fail((xhr, textStatus, errorThrown) => {
-            console.log(xhr, textStatus, errorThrown);
-          });
-      });
-    </script>
-
-    <script>
-      $('.chat').click(e => {
-        const id = e.target.dataset.id;
-
-        $.post('/chatroom', {targetId: id}).then(() => {});
-      });
-    </script>
 
     <!-- Optional JavaScript; choose one of the two! -->
 
     <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
-    <!-- <script
+    <script
       src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
       integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
       crossorigin="anonymous"
@@ -120,10 +76,11 @@
       src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF"
       crossorigin="anonymous"
-    ></script> -->
+    ></script>
 
     <!-- Option 2: Separate Popper and Bootstrap JS -->
     <!--
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js" integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2" crossorigin="anonymous"></script>
     -->
