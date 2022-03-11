@@ -278,3 +278,18 @@ app.get('/chat', isSignedInUser, (req, res) => {
       res.render('chat.ejs', {data: result});
     });
 });
+
+app.post('/message', isSignedInUser, (req, res) => {
+  const data = {
+    parent: req.body.parent,
+    content: req.body.content,
+    userid: req.user._id,
+    date: new Date(),
+  };
+
+  db.collection('message')
+    .insertOne(data)
+    .then(result => {
+      res.send(result);
+    });
+});
