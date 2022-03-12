@@ -283,7 +283,7 @@ app.post('/message', isSignedInUser, (req, res) => {
   const data = {
     parent: req.body.parent,
     content: req.body.content,
-    userid: req.user._id,
+    userId: req.user._id,
     date: new Date(),
   };
 
@@ -291,5 +291,23 @@ app.post('/message', isSignedInUser, (req, res) => {
     .insertOne(data)
     .then(result => {
       res.send(result);
+    });
+});
+
+app.get('/message:parentId', isSignedInUser, (req, res) => {
+  res.writeHead(200, {
+    Connection: 'keep-alive',
+    'Content-Type': 'text/event-stream',
+    'Cache-Control': 'no-cache',
+  });
+
+  db.collection('message')
+    .find({parent: 'req.params.id'})
+    .toArray()
+    .then(result => {
+      // 사용할 event 이름
+      res.write('event: test\n');
+      // 클라이언트 data 보낼때 사용하는 이름
+      res.write(`data: ${JSON.stringify(result)}\n\n`);
     });
 });

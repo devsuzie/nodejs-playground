@@ -134,11 +134,16 @@
         });
       });
 
-      var chatRoomId;
+      let chatRoomId;
+      let eventSource;
 
       $('.list-group-item').click(function () {
         $(this).css('background-color', '#eee');
         chatRoomId = this.dataset.id;
+        eventSource = new EventSource('/message');
+        eventSource.addEventListener('test', e => {
+          console.log(e.data);
+        });
       });
     </script>
 
