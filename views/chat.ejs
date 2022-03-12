@@ -108,26 +108,6 @@
       </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script>
-      let chatRoomId;
-      $('.list-group-item').click(() => {
-        chatRoomId = this.dataset.id;
-      });
-
-      $('#send').click(() => {
-        const message = $('#chat-input').val();
-        const data = {
-          parent: chatRoomId,
-          content: message,
-        };
-
-        $.post('/message', data).then(() => {
-          console.log('success');
-        });
-      });
-    </script>
-
     <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
     <script
       src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
@@ -139,6 +119,28 @@
       integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF"
       crossorigin="anonymous"
     ></script>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script>
+      $('#send').click(() => {
+        const message = $('#chat-input').val();
+        const data = {
+          parent: chatRoomId,
+          content: message,
+        };
+
+        $.post('/message', data).then(() => {
+          console.log('success');
+        });
+      });
+
+      var chatRoomId;
+
+      $('.list-group-item').click(function () {
+        $(this).css('background-color', '#eee');
+        chatRoomId = this.dataset.id;
+      });
+    </script>
 
     <!-- Option 2: Separate Popper and Bootstrap JS -->
     <!--
