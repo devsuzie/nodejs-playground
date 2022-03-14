@@ -137,3 +137,9 @@
   - 클라이언트에서 요청 없이 서버에서 계속해서 응답을 보내줄 수 있음
   - header content-type에 `text/event-stream` 추가
   - 서버와 실시간 자료 전달시 문자만 전달 가능 (JSON.stringify 사용 해줘야함)
+
+## MongoDB Change Stream
+
+- DB가 업데이트되면 유저에게 보내줄 수 있도록 해줌
+- `collection.watch()` 를 통해 실시간 감시
+- 해당 컬렉션에 변동사항이 생기면 `changeStream.on` 콜백함수 코드 실행됨

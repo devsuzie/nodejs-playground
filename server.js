@@ -1,3 +1,4 @@
+/* eslint-disable arrow-parens */
 /* eslint-disable object-curly-spacing */
 const express = require('express');
 
@@ -294,7 +295,7 @@ app.post('/message', isSignedInUser, (req, res) => {
     });
 });
 
-app.get('/message:parentId', isSignedInUser, (req, res) => {
+app.get('/message/:parentid', isSignedInUser, (req, res) => {
   res.writeHead(200, {
     Connection: 'keep-alive',
     'Content-Type': 'text/event-stream',
@@ -302,12 +303,18 @@ app.get('/message:parentId', isSignedInUser, (req, res) => {
   });
 
   db.collection('message')
-    .find({parent: 'req.params.id'})
+    .find({parent: req.params.parentid})
     .toArray()
     .then(result => {
-      // 사용할 event 이름
       res.write('event: test\n');
-      // 클라이언트 data 보낼때 사용하는 이름
       res.write(`data: ${JSON.stringify(result)}\n\n`);
     });
+
+  const data = [{$match: {'fullDocument.parent': req.params.parentid}}];
+
+  const changeStream = db.collection('message').watch(data);
+  changeStream.on('change', result => {
+    const 추가된문서 = [result.fullDocument];
+    res.write(`data: ${JSON.stringify(추가된문서)}\n\n`);
+  });
 });
